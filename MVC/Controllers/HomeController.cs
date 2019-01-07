@@ -42,6 +42,7 @@ namespace MVC.Controllers
             }
         }
 
+        //Comment to check commit
         public IActionResult SearchFlights()
         {
             return View();
