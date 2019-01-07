@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Data;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class AirportController : ControllerBase
     {
-        //private readonly DATAFACTORY _datafactory;
-        //public CONTROLLERNAME(DATAFACTORY datafactory)
-        //{
-        //    _datafactory = datafactory;
-        //}
+        private readonly AirportDataFactory _airportDatafactory;
+        public AirportController(AirportDataFactory airportDataFactory)
+        {
+            _airportDatafactory = airportDataFactory;
+        }
 
         // GET api/values
         //[HttpGet]
@@ -34,11 +36,11 @@ namespace API.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("NewFlight")]
+        public void Post([FromBody] Flight flight)
         {
-            //_datafactory.Add(value);
-            //_datafactory.SaveChanges();
+            _airportDatafactory.Add(flight);
+            _airportDatafactory.SaveChanges();
         }
 
         // PUT api/values/5
