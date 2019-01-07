@@ -24,6 +24,14 @@ namespace API.Controllers
         public ActionResult<IEnumerable<Flight>> AllFlights()
         {
             List<Flight> flights = _airportDatafactory.Flights.ToList();
+            if (flights == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             return flights;
         }
 
