@@ -82,5 +82,12 @@ namespace API.Controllers
                 }
             }
         }
+
+        [HttpGet("alldeparturesandarrivals")]
+        public List<Flight> AllDeparturesAndArrivals()
+        {
+            List<Flight> flights = _airportDatafactory.Flights.ToList();
+            return flights;
+        }
     }
 }

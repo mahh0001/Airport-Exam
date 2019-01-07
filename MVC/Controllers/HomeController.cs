@@ -103,67 +103,23 @@ namespace MVC.Controllers
             }
         }
 
-        /////////////////SPECIFIC ITEM - HTTPGET////////////////
-        //public async Task<IActionResult> SeeItem(int itemNumber)
-        //{
-        //    var client = GetClient();
-        //    HttpResponseMessage response = await client.GetAsync($@"api/CONTROLLER/METHOD/{itemNumber}");
+        public async Task<IActionResult> SeeAllLocations()
+        {
+            var client = GetClient();
+            HttpResponseMessage response = await client.GetAsync($@"api/airport/AllDeparturesAndArrivals");
 
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        string content = await response.Content.ReadAsStringAsync();
-        //        var model = await response.Content.ReadAsAsync<ProxyModel>();
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                var model = await response.Content.ReadAsAsync<List<FlightProxy>>();
 
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        return BadRequest("An error occured.");
-        //    }
-        //}
-
-        ////////////ADD NEW ITEM////////////////
-        //public IActionResult AddNewItem()
-        //{
-        //    return View();
-        //}
-
-        ///////REDIRECT TO THIS METHOD WHEN ADDING - HTTPPOST////////////
-        //public async Task<IActionResult> CreateNewItem(string itemTitle, DateTime CreationDate)
-        //{
-        //    var client = GetClient();
-
-        //    ModelProxy model = new ModelProxy();
-        //    model.Title = itemTitle;
-        //    model.CreationDate = CreationDate;
-
-        //    HttpResponseMessage response = await client.PostAsJsonAsync($@"/api/CONTROLLER/METHOD", model);
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        return RedirectToAction("ACTION");
-        //    }
-        //    else
-        //    {
-        //        return BadRequest("An error occured");
-        //    }
-        //}
-
-        //////////DELETE ITEM - HTTPDELETE////////////////////////
-        //public async Task<IActionResult> DeleteItem(int itemId)
-        //{
-        //    var client = GetClient();
-        //    HttpResponseMessage response = await client.DeleteAsync($@"/api/CONTROLLER/METHOD/{id}");
-        //
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        return RedirectToAction("ACTION");
-        //    }
-        //    else
-        //    {
-        //        return BadRequest("An error occured");
-        //    }
-        //}
+                return View(model);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
         public IActionResult About()
         {
