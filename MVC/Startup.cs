@@ -4,15 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Swagger;
 
-namespace API
+namespace MVC
 {
     public class Startup
     {
@@ -26,13 +24,14 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //var connection = @"Server=(localdb)\mssqllocaldb;Database=GiftShop_TrialExam;Trusted_Connection=True";
-            //services.AddDbContext<***INSERTHERE***>(options => options.UseSqlServer(connection));
-
-            services.AddSwaggerGen(c =>
+            services.Configure<CookiePolicyOptions>(options =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -45,15 +44,20 @@ namespace API
             }
             else
             {
+                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }
