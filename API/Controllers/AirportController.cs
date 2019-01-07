@@ -18,7 +18,6 @@ namespace API.Controllers
             _airportDatafactory = airportDataFactory;
         }
 
-        // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Flight>> Get()
         {
@@ -26,34 +25,33 @@ namespace API.Controllers
             return flights;
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Flight> Get(int id)
         {
-            //var value = _datafactory.Table.First(x => x.Id == Id);
-            //return value;
-            return "value";
+            var flight = _airportDatafactory.Flights.First(x => x.FlightId == id);
+            return flight;
         }
 
-        // POST api/values
+        //ReturnSpecificFlights
+        [HttpGet("SpecificFlights")]
+        public List<Flight> GetSpecificFlights(string FromLocation, string ToLocation) //MAY CHANGE
+        {
+            List<Flight> specificFlights = new List<Flight>();
+            foreach (var item in _airportDatafactory.Flights)
+            {
+                if (item.FromLocation == FromLocation && item.ToLocation == ToLocation)
+                {
+                    specificFlights.Add(item);
+                }
+            }
+            return specificFlights;
+        }
+
         [HttpPost("NewFlight")]
         public void Post([FromBody] Flight flight)
         {
             _airportDatafactory.Add(flight);
             _airportDatafactory.SaveChanges();
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-            if (!ModelState.IsValid)
-            {
-                BadRequest(ModelState);
-            }
-
-            //_db.Table.Update(value);
-            //_db.SaveChanges();
         }
 
         //[HttpPatch("{id}")] 
@@ -77,13 +75,24 @@ namespace API.Controllers
         //    _db.SaveChanges();
         //}
 
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        BadRequest(ModelState);
+        //    }
+        //_db.Table.Update(value);
+        //_db.SaveChanges();
+        //}
+
         // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            //Model value = _db.Table.First(x => x.Id == id);
-            //_db.Table.Remove(value);
-            //_db.SaveChanges();
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //Model value = _db.Table.First(x => x.Id == id);
+        //_db.Table.Remove(value);
+        //_db.SaveChanges();
+        //}
     }
 }
