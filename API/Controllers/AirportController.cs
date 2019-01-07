@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/airport")]
     [ApiController]
     public class AirportController : ControllerBase
     {
@@ -19,12 +19,12 @@ namespace API.Controllers
         }
 
         // GET api/values
-        //[HttpGet]
-        //public ActionResult<IEnumerable<string>> Get()
-        //{
-        //List<Model> value = _datafactory.Table.ToList();
-        //return value;
-        //}
+        [HttpGet]
+        public ActionResult<IEnumerable<Flight>> Get()
+        {
+            List<Flight> flights = _airportDatafactory.Flights.ToList();
+            return flights;
+        }
 
         // GET api/values/5
         [HttpGet("{id}")]
