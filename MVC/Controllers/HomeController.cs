@@ -42,6 +42,67 @@ namespace MVC.Controllers
             }
         }
 
+        public IActionResult SearchFlights()
+        {
+            return View();
+        }
+
+
+        public async Task<IActionResult> EditFlights(int id)
+        {
+            var client = GetClient();
+            HttpResponseMessage response = await client.GetAsync($@"api/airport/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                var model = await response.Content.ReadAsAsync<FlightProxy>();
+
+                return View(model);
+            }
+            else
+            {
+                return BadRequest("An error occured.");
+            }
+        }
+
+        public async Task<IActionResult> EditFlightsPut(FlightProxy flight)
+        {
+            var client = GetClient();
+            HttpResponseMessage response = await client.PutAsJsonAsync($@"api/airport/{flight.FlightId}", flight);
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                var model = await response.Content.ReadAsAsync<FlightProxy>();
+
+                return RedirectToAction("Index");
+                //return View(model);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        public async Task<IActionResult> SearchFlightsAction(string FromLocation, string ToLocation)
+        {
+            var client = GetClient();
+            HttpResponseMessage response = await client.GetAsync($@"api/airport/SpecificFlights/{FromLocation}/{ToLocation}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                var model = await response.Content.ReadAsAsync<List<FlightProxy>>();
+
+                return View(model);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         /////////////////SPECIFIC ITEM - HTTPGET////////////////
         //public async Task<IActionResult> SeeItem(int itemNumber)
         //{

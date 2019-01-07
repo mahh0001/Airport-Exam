@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -33,7 +34,7 @@ namespace API.Controllers
         }
 
         //ReturnSpecificFlights
-        [HttpGet("SpecificFlights")]
+        [HttpGet("SpecificFlights/{FromLocation}/{ToLocation}")]
         public List<Flight> GetSpecificFlights(string FromLocation, string ToLocation) //MAY CHANGE
         {
             List<Flight> specificFlights = new List<Flight>();
@@ -55,10 +56,10 @@ namespace API.Controllers
         }
 
         //[HttpPatch("{id}")] 
-        //public void Patch([FromBody]JsonPatchDocument<Model> patch, int id) //patch is the model with updated values
+        //public void Patch([FromBody]JsonPatchDocument<Flight> patch, int id) //patch is the model with updated values
         //{
-        //    Model value = _db.Table.FirstOrDefault(x => x.Id == id);
-        //    patch.ApplyTo(value, ModelState);
+        //    Flight flight = _airportDatafactory.Flights.FirstOrDefault(x => x.FlightId == id);
+        //    patch.ApplyTo(flight, ModelState);
 
         //    if (!ModelState.IsValid)
         //    {
@@ -67,24 +68,24 @@ namespace API.Controllers
 
         //    var model = new
         //    {
-        //        original = value,
+        //        original = flight,
         //        patched = patch
         //    };
 
-        //    _db.Table.Update(value);
-        //    _db.SaveChanges();
+        //    _airportDatafactory.Flights.Update(flight);
+        //    _airportDatafactory.SaveChanges();
         //}
 
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        BadRequest(ModelState);
-        //    }
-        //_db.Table.Update(value);
-        //_db.SaveChanges();
-        //}
+        [HttpPut("{id}")]
+        public void Put([FromBody] Flight flight)
+        {
+            if (!ModelState.IsValid)
+            {
+                BadRequest(ModelState);
+            }
+        _airportDatafactory.Flights.Update(flight);
+        _airportDatafactory.SaveChanges();
+        }
 
         // DELETE api/values/5
         //[HttpDelete("{id}")]

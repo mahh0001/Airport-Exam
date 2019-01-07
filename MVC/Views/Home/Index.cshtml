@@ -1,8 +1,13 @@
 ﻿@model IEnumerable<MVC.Models.FlightProxy>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@{
+    Layout = "_Layout";
+}
+
+<h1>Oversigt over flyafgange og ankomster</h1>
+
+@Html.ActionLink(linkText: "Søg på specifikke afgange", actionName: "SearchFlights", controllerName: "Home")
+
 <table class="table">
     <thead>
         <tr>
@@ -25,7 +30,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.AircraftType)
@@ -43,11 +49,12 @@
                 @Html.DisplayFor(modelItem => item.ArrivalTime)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink(linkText: "Edit flight", actionName: "EditFlights", controllerName: "Home", routeValues: new { id = item.FlightId })
+            </td>
+            <td>
+                @Html.HiddenFor(modelItem => item.FlightId)
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>
