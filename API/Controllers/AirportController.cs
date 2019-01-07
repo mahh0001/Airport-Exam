@@ -26,6 +26,8 @@ namespace API.Controllers
             return flights;
         }
 
+        //[Produces("application/xml")]
+        //[FilterFormat]
         [HttpGet("{id}")]
         public ActionResult<Flight> Get(int id)
         {
