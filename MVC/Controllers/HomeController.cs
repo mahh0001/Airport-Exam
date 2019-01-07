@@ -24,11 +24,6 @@ namespace MVC.Controllers
             return client;
         }
 
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
-
         public async Task<IActionResult> Index()
         {
             var client = GetClient();

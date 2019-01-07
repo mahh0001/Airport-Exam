@@ -18,7 +18,7 @@ namespace API.Controllers
             _airportDatafactory = airportDataFactory;
         }
 
-        [HttpGet]
+        [HttpGet("AllFlights")]
         public ActionResult<IEnumerable<Flight>> AllFlights()
         {
             List<Flight> flights = _airportDatafactory.Flights.ToList();
