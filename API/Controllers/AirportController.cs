@@ -19,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Flight>> Get()
+        public ActionResult<IEnumerable<Flight>> AllFlights()
         {
             List<Flight> flights = _airportDatafactory.Flights.ToList();
             return flights;

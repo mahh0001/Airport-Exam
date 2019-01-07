@@ -11,10 +11,6 @@ namespace MVC.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public const string API = "https://localhost:44369";
         public const string Client = "https://localhost:44350/";
@@ -28,24 +24,28 @@ namespace MVC.Controllers
             return client;
         }
 
-        ///////////List of items - HTTPGET/////////////////////////
-        //public async Task<IActionResult> SeeAllItems()
+        //public IActionResult Index()
         //{
-        //    var client = GetClient();
-        //    HttpResponseMessage response = await client.GetAsync($@"api/CONTROLLER/METHOD");
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        string content = await response.Content.ReadAsStringAsync();
-        //        var model = await response.Content.ReadAsAsync<List<ProxyModel>>();
-
-        //        return View(model);
-        //    }
-        //    else
-        //    {
-        //        return NotFound();
-        //    }
+        //    return View();
         //}
+
+        public async Task<IActionResult> Index()
+        {
+            var client = GetClient();
+            HttpResponseMessage response = await client.GetAsync($@"api/airport/AllFlights");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                var model = await response.Content.ReadAsAsync<List<FlightProxy>>();
+
+                return View(model);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
         /////////////////SPECIFIC ITEM - HTTPGET////////////////
         //public async Task<IActionResult> SeeItem(int itemNumber)
