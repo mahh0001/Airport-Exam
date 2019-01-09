@@ -68,6 +68,7 @@ namespace API.Controllers
         [HttpPut("{id}")]
         public void Put([FromBody] Flight flight)
         {
+            //flight.FlightId = id;
             var saved = false;
             while (!saved)
             {
@@ -96,6 +97,16 @@ namespace API.Controllers
         {
             List<Flight> flights = _airportDatafactory.Flights.ToList();
             return flights;
+        }
+
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+            {
+                Flight flight = _airportDatafactory.Flights.First(x => x.FlightId == id);
+                _airportDatafactory.Flights.Remove(flight);
+                _airportDatafactory.SaveChanges();
+            }
         }
     }
 }
